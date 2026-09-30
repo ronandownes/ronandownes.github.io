@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cooling of Hot Drinks | Mathematical Investigation</title>
+  <meta name="description" content="An archived CBA 1 mathematical investigation reconstructed as an accessible HTML publication.">
+  <style>
+    :root{--ink:#17202a;--muted:#5f6b76;--line:#e5e7eb;--paper:#fff;--wash:#f6f7f9;--accent:#1f5a7a;--warm:#8a4b08}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.68}
+    .wrap{max-width:920px;margin:auto;padding:0 24px}nav{display:flex;flex-wrap:wrap;gap:20px;padding:18px 0;border-bottom:1px solid var(--line);font-weight:650}nav a{color:var(--ink);text-decoration:none}
+    header{padding:68px 0 34px}.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}.badges{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+    .badge{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--wash);font-size:.84rem}h1{font-size:clamp(2.4rem,6vw,4.8rem);line-height:1.04;margin:.15em 0}.lead{font-size:1.2rem;color:var(--muted);max-width:760px}
+    .note{margin:26px 0;padding:18px 20px;border-left:4px solid var(--accent);background:var(--wash);border-radius:0 12px 12px 0}
+    section{padding:34px 0;border-top:1px solid var(--line)}h2{font-size:1.85rem;margin:0 0 14px}h3{margin-top:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .card{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--wash)}table{width:100%;border-collapse:collapse;margin:18px 0}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}th{background:var(--wash)}
+    .formula{font-family:Georgia,serif;font-size:clamp(1.15rem,3vw,1.55rem);padding:18px;background:var(--wash);border-radius:12px;overflow:auto}
+    figure{margin:26px 0}figcaption{color:var(--muted);font-size:.92rem;margin-top:8px}.chart{width:100%;height:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+    .small{font-size:.93rem;color:var(--muted)}footer{padding:36px 0 60px;border-top:1px solid var(--line);color:var(--muted)}
+    @media print{nav{display:none}.wrap{max-width:none}body{font-size:11pt}section{break-inside:avoid}.badge{border:1px solid #999}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="index.html">Home</a><a href="publications.html">Publications</a><a href="#question">Question</a><a href="#method">Method</a><a href="#model">Model</a><a href="#evidence">Evidence</a></nav>
+
+  <header>
+    <div class="eyebrow">Archived classroom investigation · May 2022</div>
+    <h1>Cooling of Hot Drinks</h1>
+    <p class="lead">A mathematical investigation of how a hot drink cools over time, and how the cooling curve changes with the cup material and whether the container is covered.</p>
+    <div class="badges"><span class="badge">CBA 1</span><span class="badge">Mathematical Investigation</span><span class="badge">Exponential Modelling</span><span class="badge">Experimental Data</span></div>
+    <div class="note"><strong>Publication note.</strong> This page reconstructs an archived classroom investigation from the original source files as accessible HTML. It is presented as a teaching / learning exemplar rather than as a claim of personal authorship. The original assessment descriptor has not been added until it is confirmed.</div>
+  </header>
+
+  <section id="question">
+    <h2>The question</h2>
+    <p>The investigation asks a simple practical question with interesting mathematics underneath it: <strong>how long does a hot drink take to cool, and what changes the rate?</strong></p>
+    <p>The original work focused on three main explanatory variables: time, the material of the cup, and whether the cup was covered. The starting temperature was controlled at approximately 84°C so that the different trials could be compared more fairly.</p>
+  </section>
+
+  <section id="method">
+    <h2>Experimental design</h2>
+    <div class="grid">
+      <div class="card"><strong>Dependent variable</strong><br>Temperature, measured in °C.</div>
+      <div class="card"><strong>Continuous input</strong><br>Time after the trial begins.</div>
+      <div class="card"><strong>Categorical input</strong><br>Cup material: ceramic or insulated.</div>
+      <div class="card"><strong>Binary input</strong><br>Covered or uncovered.</div>
+    </div>
+    <h3>Why this is mathematics rather than just measurement</h3>
+    <p>The measurements are only the starting point. The mathematical task is to identify the structure in the data: determine the shape of the temperature–time relationship, compare trials, distinguish independent from dependent variables, and build a function that captures the long-term behaviour.</p>
+  </section>
+
+  <section id="model">
+    <h2>The mathematical model</h2>
+    <p>A cooling drink does not normally lose the same number of degrees every minute. It cools quickly when it is much hotter than the room and progressively more slowly as it approaches room temperature. That leads naturally to an exponential model.</p>
+    <div class="formula">T(t) = T<sub>a</sub> + (T<sub>0</sub> − T<sub>a</sub>)e<sup>−kt</sup></div>
+    <p>Here, <em>T(t)</em> is the drink temperature after time <em>t</em>, <em>T<sub>a</sub></em> is the ambient temperature, <em>T<sub>0</sub></em> is the initial temperature and <em>k</em> controls the rate of cooling.</p>
+    <p>The key idea is that the graph tends toward room temperature rather than continuing downward indefinitely. In the archived ceramic-mug trial the curve settles close to 20°C.</p>
+  </section>
+
+  <section id="evidence">
+    <h2>Evidence from the archived data</h2>
+    <p>The following curve reconstructs the labelled ceramic-mug observations preserved in the source material. The original investigation also compared covered and uncovered ceramic and insulated containers.</p>
+    <figure>
+      <svg class="chart" viewBox="0 0 820 430" role="img" aria-labelledby="chartTitle chartDesc">
+        <title id="chartTitle">Temperature against time for a ceramic mug</title>
+        <desc id="chartDesc">Temperature falls rapidly from about 84 degrees Celsius and approaches about 20 degrees over one hundred minutes.</desc>
+        <rect x="0" y="0" width="820" height="430" fill="white"/>
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="75" y1="55" x2="75" y2="360"/><line x1="75" y1="360" x2="770" y2="360"/>
+          <line x1="75" y1="104" x2="770" y2="104"/><line x1="75" y1="153" x2="770" y2="153"/><line x1="75" y1="202" x2="770" y2="202"/><line x1="75" y1="251" x2="770" y2="251"/><line x1="75" y1="300" x2="770" y2="300"/>
+        </g>
+        <g font-family="system-ui, sans-serif" font-size="13" fill="#5f6b76">
+          <text x="26" y="60">85</text><text x="26" y="109">75</text><text x="26" y="158">65</text><text x="26" y="207">55</text><text x="26" y="256">45</text><text x="26" y="305">35</text><text x="26" y="354">25</text>
+          <text x="70" y="388">0</text><text x="205" y="388">20</text><text x="345" y="388">40</text><text x="485" y="388">60</text><text x="625" y="388">80</text><text x="754" y="388">100</text>
+          <text x="362" y="416">Time (minutes)</text><text transform="translate(18 250) rotate(-90)">Temperature (°C)</text>
+        </g>
+        <line x1="75" y1="177" x2="770" y2="177" stroke="#8a4b08" stroke-width="1.5" stroke-dasharray="7 6"/>
+        <line x1="75" y1="226" x2="770" y2="226" stroke="#1f5a7a" stroke-width="1.5" stroke-dasharray="7 6"/>
+        <polyline fill="none" stroke="#17202a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"
+          points="75,60 110,151 145,216 180,262 215,294 250,317 285,333 320,344 355,352 390,358 425,362 460,365 495,367 530,369 565,370 600,371 635,372 670,372.5 705,373 740,373 770,373"/>
+        <g fill="#17202a">
+          <circle cx="75" cy="60" r="4"/><circle cx="110" cy="151" r="4"/><circle cx="145" cy="216" r="4"/><circle cx="180" cy="262" r="4"/><circle cx="215" cy="294" r="4"/><circle cx="250" cy="317" r="4"/><circle cx="285" cy="333" r="4"/><circle cx="355" cy="352" r="4"/><circle cx="495" cy="367" r="4"/><circle cx="770" cy="373" r="4"/>
+        </g>
+      </svg>
+      <figcaption>Reconstructed from the labelled points in the archived graph. The source material treated 50–60°C as a comparison band; that band is shown here only as part of the original investigation, not as current safety guidance.</figcaption>
+    </figure>
+
+    <h3>What the graph shows</h3>
+    <p>The curve is clearly not linear. The rate of cooling is greatest at the beginning and decreases as the drink approaches ambient temperature. That shape is consistent with an exponential-decay model shifted upward by room temperature.</p>
+  </section>
+
+  <section>
+    <h2>Why the investigation is useful</h2>
+    <p>It combines experimental design, variable classification, functions, graphs and modelling in a single familiar context. It also gives students a reason to ask whether a model is merely a good visual fit or whether its parameters have a physical interpretation.</p>
+    <p class="small">Next reconstruction step: restore the original photographs and multi-container graph directly into this HTML page, then verify the archived trial labels against the raw data before publishing any comparative timing claims.</p>
+  </section>
+
+  <footer><a href="publications.html">← Back to Publications</a><br><br>© 2026 Ronan Downes</footer>
+</div>
+</body>
+</html>
