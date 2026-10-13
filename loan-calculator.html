@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loan Calculator | Ronan Downes</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#17202a;background:#f6f7f9}*{box-sizing:border-box}body{margin:0}header,main,footer{max-width:1040px;margin:auto;padding:24px}a{color:#1f5a7a}header{padding-top:30px}h1{font-size:clamp(2rem,5vw,3rem);margin:12px 0 4px}p{color:#526171}main{padding-top:8px}.layout{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:20px}.panel{background:white;border:1px solid #dce2e7;border-radius:16px;padding:22px;box-shadow:0 3px 18px #17202a08}label{display:block;font-weight:650;margin:15px 0 5px}input,select{width:100%;padding:11px;border:1px solid #acb7c2;border-radius:8px;font:inherit;background:white}.help{font-size:.84rem;color:#687583}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:#eef4f7;border-radius:12px;padding:15px}.stat small{display:block;color:#465a68}.stat strong{font-size:1.5rem}button{border:0;background:#1f5a7a;color:white;padding:11px 16px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}button:hover{background:#143b50}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}h2{font-size:1.2rem;margin:0 0 14px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;white-space:nowrap}th,td{border-bottom:1px solid #e4e8ec;padding:10px;text-align:right}th:first-child,td:first-child{text-align:left}thead{background:#eff3f6}tbody tr:last-child{font-weight:700;background:#f2f7f9}.note{font-size:.85rem;line-height:1.55}.wide{margin-top:20px}@media(max-width:760px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}th,td{padding:9px 7px;font-size:.86rem}}@media print{button{display:none}body{background:white}.panel{box-shadow:none}header,main{max-width:none}}
+</style></head><body>
+<header><a href="./index.html#projects">← Ronan Downes · Projects</a><h1>Loan & Compound Interest Calculator</h1><p>Explore a one-year loan, monthly interest, and the benefit of early repayment.</p></header>
+<main><div class="layout"><section class="panel"><h2>Loan assumptions</h2>
+<label for="principal">Loan amount (€)</label><input id="principal" type="number" min="0.01" max="100000000" step="0.01" value="500">
+<label for="rate">Nominal annual interest (%)</label><input id="rate" type="number" min="0" max="100" step="0.1" value="10">
+<label for="term">Loan term (months)</label><input id="term" type="number" min="1" max="120" step="1" value="12">
+<label for="payoff">Repay in full at end of month</label><select id="payoff"></select><div class="help">Early repayment carries no penalty. Interest stops after repayment.</div>
+<div class="actions"><button id="reset" type="button">Reset to €500</button><button id="csv" type="button">Download CSV</button><button id="print" type="button">Print</button></div>
+</section><section class="panel"><h2>Your repayment figures</h2><div class="stats"><div class="stat"><small>Principal</small><strong id="principalOut">€500.00</strong></div><div class="stat"><small>Interest earned</small><strong id="interestOut">€52.36</strong></div><div class="stat"><small>Total to repay</small><strong id="totalOut">€552.36</strong></div><div class="stat"><small>Effective annual rate</small><strong id="earOut">10.47%</strong></div></div>
+<p id="summary" aria-live="polite"></p><p class="note">Calculation: balance × (1 + annual rate ÷ 12) each month. Interest remains in the balance until the lump-sum repayment at the selected month. This model assumes no interim payments, fees or taxes.</p></section></div>
+<section class="panel wide"><h2>Monthly repayment schedule</h2><div class="tablewrap"><table><thead><tr><th>Month</th><th>Opening balance</th><th>Interest</th><th>Closing balance</th><th>Repayment</th></tr></thead><tbody id="schedule"></tbody></table></div><p class="note">Displayed figures are rounded to cents; calculations retain full precision until the final settlement. For early repayment within a month, a separate day-count convention would need to be agreed.</p></section>
+</main><footer><p>Ronan Downes · Projects · Educational financial modelling, not financial advice.</p></footer>
+<script>
+const $=id=>document.getElementById(id);
+const eur=n=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR'}).format(n);
+const pct=n=>n.toFixed(2)+'%';
+let currentRows=[];
+function render(){
+const principal=Number($('principal').value),rate=Number($('rate').value),term=Number($('term').value);
+if(!Number.isFinite(principal)||principal<=0||!Number.isFinite(rate)||rate<0||rate>100||!Number.isInteger(term)||term<1||term>120){$('summary').textContent='Enter a positive amount, an annual rate from 0–100%, and 1–120 whole months.';$('schedule').innerHTML='';return;}
+const prior=Number($('payoff').value)||term;
+$('payoff').replaceChildren();
+for(let m=1;m<=term;m++){let o=document.createElement('option');o.value=m;o.textContent='Month '+m;$('payoff').append(o)}
+const payoff=Math.min(prior,term);$('payoff').value=payoff;
+const r=rate/1200;let balance=principal;currentRows=[];
+for(let m=1;m<=payoff;m++){let opening=balance,interest=balance*r;balance+=interest;const repayment=m===payoff?balance:0;currentRows.push([m,opening,interest,balance,repayment]);}
+const total=balance;
+$('principalOut').textContent=eur(principal);$('interestOut').textContent=eur(total-principal);$('totalOut').textContent=eur(total);$('earOut').textContent=pct(((1+r)**12-1)*100);
+$('summary').textContent=payoff===term?'Full repayment after '+term+' month'+(term===1?'':'s')+'.':'Repaid '+(term-payoff)+' month'+(term-payoff===1?'':'s')+' early, at the end of month '+payoff+'.';
+$('schedule').innerHTML=currentRows.map(([m,op,i,cl,p])=>'<tr><td>'+m+'</td><td>'+eur(op)+'</td><td>'+eur(i)+'</td><td>'+eur(cl)+'</td><td>'+ (p?eur(p):'—')+'</td></tr>').join('');
+}
+['principal','rate','term'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='term')$('payoff').value=$('term').value;render()}));
+$('payoff').addEventListener('change',render);
+$('reset').onclick=()=>{$('principal').value=500;$('rate').value=10;$('term').value=12;$('payoff').value=12;render()};
+$('print').onclick=()=>window.print();
+$('csv').onclick=()=>{if(!currentRows.length)return;const lines=[['Month','Opening balance EUR','Interest EUR','Closing balance EUR','Repayment EUR'],...currentRows.map(row=>row.map((v,i)=>i? v.toFixed(2):v))];const blob=new Blob([lines.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='loan-amortisation-schedule.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('payoff').value=12;render();
+</script></body></html>
